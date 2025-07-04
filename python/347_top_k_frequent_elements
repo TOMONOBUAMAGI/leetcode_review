@@ -1,0 +1,21 @@
+from typing import List
+
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        if len(nums) == 1:
+            return nums
+
+        num_hash = {}
+
+        for num in nums:
+            if num in num_hash:
+                num_hash[num] += 1
+            else:
+                num_hash[num] = 1
+
+        sorted_num_hash = sorted(
+            num_hash.items(), key=lambda item: item[1], reverse=True
+        )
+
+        return [freq for freq, _ in sorted_num_hash[:k]]
