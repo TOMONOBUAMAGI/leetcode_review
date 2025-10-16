@@ -1,0 +1,39 @@
+from typing import List
+
+
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        """
+        Finds all unique combinations of numbers from `candidates` that sum up to `target`.
+        Each number in candidates may be used at most once in the combination.
+        The solution avoids duplicate combinations by skipping consecutive identical numbers
+        after sorting the input.
+
+        Args:
+            candidates (List[int]): List of positive integers (may contain duplicates).
+            target (int): The desired sum to reach using elements from candidates.
+
+        Returns:
+            List[List[int]]: A list of unique combinations where the sum equals `target`.
+        """
+        answer = []
+        candidates.sort()
+
+        def count(total, start, nums):
+            if total > target:
+                return
+            elif total == target:
+                answer.append(nums)
+                return
+            else:
+                for i in range(start, len(candidates)):
+                    if i > start and candidates[i] == candidates[i-1]:
+                        continue
+
+                    if total + candidates[i] > target:
+                        break
+
+                    count(total+candidates[i], i+1, nums+[candidates[i]])
+
+        count(0, 0, [])
+        return answer
